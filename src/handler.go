@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 
@@ -137,4 +138,19 @@ func (q *Query) Index(w http.ResponseWriter, r *http.Request) {
 
 func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Not Found\n"))
+}
+
+func (q *Query) List(w http.ResponseWriter, r *http.Request) {
+	es := q.GetAllExperiment()
+	ejs := make([]ExperimentJson, len(es))
+	for i, v := range es {
+		ejs[i] = v.NewExperimentJson()
+	}
+	t := Message{
+		"200",
+		"OK",
+		ejs,
+	}
+	tmpl := template.Must(template.ParseFiles("./index.html"))
+	tmpl.Execute(w, t)
 }

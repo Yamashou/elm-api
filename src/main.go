@@ -19,7 +19,10 @@ func main() {
 	defer q.db.Close()
 
 	r := mux.NewRouter()
+
 	r.Handle("/", UseContextGet(http.HandlerFunc(q.Index))).
+		Methods(http.MethodGet)
+	r.HandleFunc("/list", q.List).
 		Methods(http.MethodGet)
 	r.Handle("/create", UseContextPost(http.HandlerFunc(q.CreatExperiment))).
 		Methods(http.MethodPost)

@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <title>ELM experiment</title>
+  <meta http-equiv='content-type' content='text/html'; charset=UTF-8 />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7 col-md-offset-2">
+        <h1>ELM experiment</h1>
+      </div>
+    </div>
+  </div>
+
+  <div id="app">
+    <table class="table table-bordered table-hover">
+
+      <thead>
+        <tr><th class="item">
+          Model Name
+        </th><th class="item">
+          Description
+        </th><th class="item">
+          The number of data
+        </th><th class="item">
+          Hidden neurons
+        </th> <th>
+          Learn
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{range .Data}}
+      <tr>
+        <td class="item">
+          {{ .ModelName}}
+        </td>
+        <td class="item">
+          {{ .Description }}
+        </td>
+        <td class="item">
+          {{ .DataNum}}
+        </td>
+        <td class="item">
+          {{ .H }}
+        </td>
+        <td>
+          <button onclick="sent2({{ .ModelName }})">Create Model</button>
+        </td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+function sent2(r){
+  console.log(r)
+  const obj = {
+  "model_name": r, 
+  "description": "this is test2",
+  "feature_name": "Iris",
+  "user":"Yamashou",
+  "origin_data":[],
+  "feature":[[]],
+  "feature_num":4,
+  "correct_answer_num":1,
+  "H":30};
+  const body = JSON.stringify(obj);
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  const method = "POST";
+  fetch("./learn", {method, headers, body}).then((res)=> res.json()).then((r) => {
+    alert("OK")
+  }).catch(console.error);
+}
+</script>
+<style>
+.itme{
+  padding: 10px 20px 10px 20px;
+  text-align: center;
+}
+</style>
+</body>
+</html>
