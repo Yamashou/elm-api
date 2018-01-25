@@ -102,3 +102,31 @@ func UseContextPost(handler http.Handler) http.Handler {
 	}
 	return http.HandlerFunc(fn)
 }
+
+func UseContextGet(handler http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+		w.Header().Set("Access-Control-Allow-Methods", "GET")
+
+		handler.ServeHTTP(w, r)
+	}
+	return http.HandlerFunc(fn)
+}
+
+func (q *Query) Index(w http.ResponseWriter, r *http.Request) {
+	es := q.GetAllExperiment()
+	ejs := make([]ExperimentJson, len(es))
+	for i, v := range es {
+		ejs[i] = v.NewExperimentJson()
+	}
+	m := Message{
+		"200",
+		"OK",
+		ejs,
+	}
+	if err := json.NewEncoder(w).Encode(m); err != nil {
+		panic(err)
+	}
+}

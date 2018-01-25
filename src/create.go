@@ -34,6 +34,15 @@ func (l *Experiment) NewDataSet(d []Data) elm.DataSet {
 	return e
 }
 
+func (e *Experiment) NewExperimentJson() ExperimentJson {
+	return ExperimentJson{
+		ModelName:   e.ModelName,
+		Description: e.Description,
+		DataNum:     e.DataNum,
+		H:           e.H,
+	}
+}
+
 func (d *Data) Unmarshal() []float64 {
 	return floatListtoBinary.UnmarshalBinary(d.Source)
 }

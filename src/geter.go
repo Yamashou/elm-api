@@ -16,6 +16,10 @@ func (q *Query) GetFeatureId(name string) int {
 	return q.SelectFeatureFromNameToId(name)
 }
 
+func (q *Query) GetAllExperiment() []Experiment {
+	return q.SelectAllExperiment()
+}
+
 func (q *Query) GetExperimentId(name string) int {
 	return q.SelectExperimentFromModelNameToId(name)
 }

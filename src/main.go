@@ -19,6 +19,7 @@ func main() {
 	defer q.db.Close()
 
 	r := mux.NewRouter()
+	r.Handle("/", UseContextGet(http.HandlerFunc(q.Index))).Methods(http.MethodGet)
 	r.Handle("/create", UseContextPost(http.HandlerFunc(q.CreatExperiment))).Methods(http.MethodPost)
 	r.Handle("/add", UseContextPost(http.HandlerFunc(q.AddFeatureData))).Methods(http.MethodPost)
 	r.Handle("/learn", UseContextPost(http.HandlerFunc(q.Learning))).Methods(http.MethodPost)

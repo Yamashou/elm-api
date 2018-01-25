@@ -41,6 +41,12 @@ func (q *Query) SelectDataFromExperimentId(id int) []Data {
 	return datas
 }
 
+func (q *Query) SelectAllExperiment() []Experiment {
+	var exs []Experiment
+	q.db.Find(&exs)
+	return exs
+}
+
 func (q *Query) SelectExperimentFromModelName(name string) Experiment {
 	var ex Experiment
 	q.db.First(&ex, "model_name = ?", name)

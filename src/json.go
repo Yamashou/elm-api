@@ -28,6 +28,13 @@ type Ans struct {
 	Ans int `json:"ans"`
 }
 
+type ExperimentJson struct {
+	ModelName   string `json:"model_name"`
+	Description string `json:"description"`
+	DataNum     int    `json:"data_num"`
+	H           int    `json:"h"`
+}
+
 func UnmarshalLearn(data []byte) (Learn, error) {
 	var r Learn
 	err := json.Unmarshal(data, &r)
