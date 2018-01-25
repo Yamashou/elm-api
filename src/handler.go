@@ -68,11 +68,15 @@ func (q *Query) Fetch(w http.ResponseWriter, r *http.Request) {
 	contextVal := context.Get(r, MyContextKey)
 	data := contextVal.(Learn)
 	ex := q.GetExperimentFromModelName(data.ModelName)
-	ans := ex.Result(data.Feature[0])
+	ans, err := ex.Result(data.Feature[0])
 	m := Message{
 		"200",
 		"OK",
 		Ans{ans},
+	}
+	if err != nil {
+		m.Status = "500"
+		m.Status = "Model Not Found"
 	}
 
 	if err := json.NewEncoder(w).Encode(m); err != nil {
@@ -129,4 +133,8 @@ func (q *Query) Index(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(m); err != nil {
 		panic(err)
 	}
+}
+
+func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Not Found\n"))
 }

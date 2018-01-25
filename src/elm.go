@@ -11,11 +11,11 @@ func (r *Experiment) Training(d []Data) elm.ELM {
 	return e
 }
 
-func (r *Experiment) Result(d []float64) int {
+func (r *Experiment) Result(d []float64) (int, error) {
 	model, err := elm.UnmarshalBinaryFromName(r.ModelName)
 	if err != nil {
-		panic(err)
+		return -1, err
 	}
 	ans := model.GetResult(d)
-	return ans
+	return ans, nil
 }
